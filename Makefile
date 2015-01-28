@@ -18,7 +18,7 @@ SRCS    += $(shell find ./test -name "*.cpp")
 OBJS     = $(patsubst %.cpp,%.o,$(patsubst %.c,%.o,$(SRCS)))
 
 $(BIN): $(OBJS) Makefile
-	$(CXX) $(CPPFLAGS) -o $@ $(LDFLAGS) $(OBJS)
+	$(CXX) $(CPPFLAGS) -o $@ $(OBJS) $(LDFLAGS)
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE) -c -o $@ $^

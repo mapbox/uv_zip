@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <errno.h>
+#include <string.h>
 
 
 void uv__zip_open_error(uv_zip_t *zip, int error) {
