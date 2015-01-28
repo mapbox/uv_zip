@@ -1,5 +1,3 @@
-CC       = clang
-CXX      = clang++
 CXXFLAGS = -std=c++11 -Weverything -Wno-c++98-compat -Wno-missing-prototypes -Wno-padded -Wno-shadow
 CFLAGS   =
 CPPFLAGS = -O3
