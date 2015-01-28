@@ -1,0 +1,13 @@
+sudo: false
+
+language: cpp
+
+install:
+- git submodule update --init
+- ./configure
+
+before_script:
+- make
+
+script:
+- make test
