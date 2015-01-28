@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -a
+
+export MASON_DIR=".mason"
+
+if [[ $1 == 'cflags' ]]; then
+    .mason/mason cflags libuv 0.10.28
+    .mason/mason cflags libzip 0.11.2
+elif [[ $1 == 'ldflags' ]]; then
+    .mason/mason ldflags libuv 0.10.28
+    .mason/mason static_libs libuv 0.10.28
+    .mason/mason ldflags libzip 0.11.2
+    .mason/mason static_libs libzip 0.11.2
+else
+    .mason/mason install libuv 0.10.28
+    .mason/mason install libzip 0.11.2
+fi

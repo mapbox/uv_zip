@@ -1,0 +1,3 @@
+*.o
+/mason_packages
+/test/test
