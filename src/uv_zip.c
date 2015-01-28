@@ -10,10 +10,9 @@ void uv__zip_open_error(uv_zip_t *zip, int error) {
         free((char *)zip->message);
         zip->message = NULL;
     }
-    const errno_t zip_errno = errno;
-    const zip_uint64_t size = zip_error_to_str(NULL, 0, error, zip_errno) + 1;
+    const zip_uint64_t size = zip_error_to_str(NULL, 0, error, errno) + 1;
     zip->message = malloc(size);
-    zip_error_to_str((char *)zip->message, size, error, zip_errno);
+    zip_error_to_str((char *)zip->message, size, error, errno);
 }
 
 void uv__zip_store_error(uv_zip_t *zip, const char *message) {
