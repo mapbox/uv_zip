@@ -2,17 +2,20 @@
 
 set -a
 
+LIBUV_VERSION=${LIBUV_VERSION:-0.10.28}
+LIBZIP_VERSION=${LIBZIP_VERSION:-0.11.2}
+
 export MASON_DIR=".mason"
 
 if [[ $1 == 'cflags' ]]; then
-    .mason/mason cflags libuv 0.10.28
-    .mason/mason cflags libzip 0.11.2
+    .mason/mason cflags libuv ${LIBUV_VERSION}
+    .mason/mason cflags libzip ${LIBZIP_VERSION}
 elif [[ $1 == 'ldflags' ]]; then
-    .mason/mason ldflags libuv 0.10.28
-    .mason/mason static_libs libuv 0.10.28
-    .mason/mason ldflags libzip 0.11.2
-    .mason/mason static_libs libzip 0.11.2
+    .mason/mason ldflags libuv ${LIBUV_VERSION}
+    .mason/mason static_libs libuv ${LIBUV_VERSION}
+    .mason/mason ldflags libzip ${LIBZIP_VERSION}
+    .mason/mason static_libs libzip ${LIBZIP_VERSION}
 else
-    .mason/mason install libuv 0.10.28
-    .mason/mason install libzip 0.11.2
+    .mason/mason install libuv ${LIBUV_VERSION}
+    .mason/mason install libzip ${LIBZIP_VERSION}
 fi
