@@ -2,7 +2,7 @@ Makes [`libzip`](http://www.nih.at/libzip/) asynchronous by mimicing the `uv_fs_
 
 # Usage
 
-See `test/test.cpp`
+See [`test/test.cpp`](test/test.cpp)
 
 # Testing
 
