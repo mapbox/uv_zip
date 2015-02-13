@@ -5,12 +5,16 @@
 void open_failure();
 void open_from_fd();
 void missing_file();
+void missing_file_stat();
 void read_file();
+void stat_file();
 
 int main() {
     open_failure();
     open_from_fd();
     missing_file();
+    missing_file_stat();
     read_file();
+    stat_file();
     return 0;
 }
