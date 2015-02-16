@@ -8,22 +8,22 @@ void read_file() {
 
     uv_zip_t *zip = new uv_zip_t();
     uv_zip_init(zip);
-    uv_zip_open(loop, zip, "test/content.zip", 0, [](uv_zip_t *zip) {
-        ASSERT(zip->result == 0, "Opening the zip file failed");
+    uv_zip_open(loop, zip, "test/content.zip", 0, [](uv_zip_t *zip1) {
+        ASSERT(zip1->result == 0, "Opening the zip file failed");
 
-        uv_zip_fopen(loop, zip, "content.txt", 0, [](uv_zip_t *zip) {
-            ASSERT(zip->result == 0, "Opening the zip file content failed");
-            ASSERT(zip->file != nullptr, "Does not have a zip file pointer");
+        uv_zip_fopen(loop, zip1, "content.txt", 0, [](uv_zip_t *zip2) {
+            ASSERT(zip2->result == 0, "Opening the zip file content failed");
+            ASSERT(zip2->file != nullptr, "Does not have a zip file pointer");
 
             uv_buf_t *buf = new uv_buf_t;
             *buf = uv_buf_init(new char[128], 128);
 
-            uv_zip_fread(loop, zip, zip->file, buf, [](uv_zip_t *zip) {
-                ASSERT(zip->result == 13, "Incorrect amount of bytes read");
-                ASSERT((std::string {"content here\n"} == std::string { zip->buf->base, size_t(zip->result) }), "Incorrect content read");
+            uv_zip_fread(loop, zip2, zip2->file, buf, [](uv_zip_t *zip3) {
+                ASSERT(zip3->result == 13, "Incorrect amount of bytes read");
+                ASSERT((std::string {"content here\n"} == std::string { zip3->buf->base, size_t(zip3->result) }), "Incorrect content read");
 
-                uv_zip_cleanup(zip);
-                delete zip;
+                uv_zip_cleanup(zip3);
+                delete zip3;
                 FINISH_TEST(read_file)
             });
         });

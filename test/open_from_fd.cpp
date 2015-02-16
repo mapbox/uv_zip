@@ -14,13 +14,13 @@ void open_from_fd() {
 
         uv_zip_t *zip = new uv_zip_t();
         uv_zip_init(zip);
-        uv_zip_fdopen(loop, zip, fd, 0, [](uv_zip_t *zip) {
-            ASSERT(zip->result == 0, "Opening the zip file failed");
+        uv_zip_fdopen(loop, zip, fd, 0, [](uv_zip_t *zip1) {
+            ASSERT(zip1->result == 0, "Opening the zip file failed");
 
-            uv_zip_discard(loop, zip, [](uv_zip_t *zip) {
-                ASSERT(zip->result == 0, "Closing the zip file failed");
-                uv_zip_cleanup(zip);
-                delete zip;
+            uv_zip_discard(loop, zip1, [](uv_zip_t *zip2) {
+                ASSERT(zip2->result == 0, "Closing the zip file failed");
+                uv_zip_cleanup(zip2);
+                delete zip2;
                 FINISH_TEST(open_from_fd)
             });
         });
