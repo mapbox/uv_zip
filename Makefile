@@ -1,35 +1,29 @@
-CXXFLAGS = -std=c++11 -Weverything -Wno-c++98-compat -Wno-missing-prototypes -Wno-padded -Wno-shadow
-CFLAGS   =
-CPPFLAGS = -O3
+BUILDTYPE ?= Release
 
-MASON_DIR = .mason
+all: uv_zip
 
-INCLUDE += -Iinclude
-INCLUDE += $(shell ./configure cflags)
-LDFLAGS  += $(shell ./configure ldflags)
+config.gypi: configure
+	./configure
 
-BIN      = test/test
+build/Makefile:
+	deps/run_gyp uv_zip.gyp -Iconfig.gypi --depth=. -Goutput_dir=. --generator-output=./build -f make
 
-SRCS    += src/uv_zip.c
-SRCS    += $(shell find ./test -name "*.cpp")
-
-OBJS     = $(patsubst %.cpp,%.o,$(patsubst %.c,%.o,$(SRCS)))
-
-$(BIN): $(OBJS) Makefile
-	$(CXX) $(CPPFLAGS) -o $@ $(OBJS) $(LDFLAGS)
-
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(INCLUDE) -c -o $@ $^
-
-%.o: %.c
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(INCLUDE) -c -o $@ $^
+.PHONY: uv_zip
+uv_zip: build/Makefile
+	make -C build uv_zip
 
 .PHONY: test
-test: $(BIN)
-	@$(BIN)
+test: build/Makefile
+	make -C build test
+	build/$(BUILDTYPE)/test
+
+
+
+.PHONY: xcode
+xcode:
+	deps/run_gyp uv_zip.gyp -Iconfig.gypi --depth=. -Goutput_dir=. --generator-output=./build -f xcode
+	open build/uv_zip.xcodeproj
 
 .PHONY: clean
 clean:
-	rm -rf $(BIN)
-	rm -rf src/*.o
-	rm -rf test/*.o
+	rm -rf build

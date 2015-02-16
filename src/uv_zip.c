@@ -1,4 +1,4 @@
-#include <uv_zip.h>
+#include "uv_zip.h"
 
 #include <assert.h>
 #include <errno.h>
