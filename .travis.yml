@@ -5,6 +5,10 @@ language: cpp
 compiler:
   - clang
 
+env:
+  - BUILDTYPE=Release
+  - BUILDTYPE=Debug
+
 install:
 - ./configure
 
