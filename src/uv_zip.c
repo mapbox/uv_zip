@@ -23,7 +23,7 @@ void uv__zip_store_error(uv_zip_t *zip, const char *message) {
         free((char *)zip->message);
         zip->message = NULL;
     }
-    const unsigned long length = strlen(message);
+    const unsigned long length = strlen(message) + 1;
     zip->message = malloc(length);
     strncpy((char *)zip->message, message, length);
 }
