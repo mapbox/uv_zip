@@ -118,6 +118,8 @@ void uv__zip_work_fclose(uv_work_t *req) {
     zip->result = zip_fclose(zip->file);
     if (zip->result != 0) {
         uv__zip_file_error(zip);
+    } else {
+        zip->file = NULL;
     }
 }
 
@@ -172,6 +174,7 @@ int uv_zip_open(uv_loop_t* loop, uv_zip_t *zip, const char *path, zip_flags_t fl
     assert(zip);
     assert(path);
     assert(strlen(path));
+    zip->result = 0;
     zip->path = path;
     zip->flags = flags;
     zip->cb = cb;
@@ -182,6 +185,7 @@ int uv_zip_fdopen(uv_loop_t* loop, uv_zip_t *zip, uv_file fd, int flags, uv_zip_
     assert(loop);
     assert(zip);
     assert(fd);
+    zip->result = 0;
     zip->path = malloc(sizeof(uv_file));
     *(uv_file *)zip->path = fd;
     zip->flags = flags;
@@ -194,6 +198,8 @@ int uv_zip_stat(uv_loop_t* loop, uv_zip_t *zip, const char *fname, zip_flags_t f
     assert(zip);
     assert(fname);
     assert(strlen(fname));
+    assert(zip->archive);
+    zip->result = 0;
     zip->path = fname;
     zip->flags = flags;
     zip->cb = cb;
@@ -205,8 +211,11 @@ int uv_zip_fopen(uv_loop_t* loop, uv_zip_t *zip, const char *fname, zip_flags_t 
     assert(zip);
     assert(fname);
     assert(strlen(fname));
+    assert(zip->archive);
+    zip->result = 0;
     zip->path = fname;
     zip->flags = flags;
+    zip->file = NULL;
     zip->cb = cb;
     return uv_queue_work(loop, &zip->work, uv__zip_work_fopen, uv__zip_after_work);
 }
@@ -215,6 +224,8 @@ int uv_zip_fclose(uv_loop_t* loop, uv_zip_t *zip, struct zip_file *file, uv_zip_
     assert(loop);
     assert(zip);
     assert(file);
+    assert(zip->archive);
+    zip->result = 0;
     zip->file = file;
     zip->cb = cb;
     return uv_queue_work(loop, &zip->work, uv__zip_work_fclose, uv__zip_after_work);
@@ -225,6 +236,8 @@ int uv_zip_fread(uv_loop_t* loop, uv_zip_t *zip, struct zip_file *file, uv_buf_t
     assert(zip);
     assert(file);
     assert(buf);
+    assert(zip->archive);
+    zip->result = 0;
     zip->file = file;
     zip->buf = buf;
     zip->cb = cb;
@@ -234,6 +247,8 @@ int uv_zip_fread(uv_loop_t* loop, uv_zip_t *zip, struct zip_file *file, uv_buf_t
 int uv_zip_discard(uv_loop_t* loop, uv_zip_t *zip, uv_zip_cb cb) {
     assert(loop);
     assert(zip);
+    assert(!zip->file);
+    zip->result = 0;
     zip->cb = cb;
     return uv_queue_work(loop, &zip->work, uv__zip_work_discard, uv__zip_after_work);
 }

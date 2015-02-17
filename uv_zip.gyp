@@ -87,9 +87,12 @@
       'sources': [
         'test/assert.hpp',
         'test/missing_file.cpp',
+        'test/missing_file_stat.cpp',
         'test/open_failure.cpp',
         'test/open_from_fd.cpp',
         'test/read_file.cpp',
+        'test/stat_file.cpp',
+        'test/reuse_handle.cpp',
         'test/test.cpp',
       ],
       'dependencies': [ 'uv_zip' ],

@@ -25,9 +25,18 @@ void read_file() {
                 ASSERT(zip3->result == 13, "Incorrect amount of bytes read");
                 ASSERT((std::string {"content here\n"} == std::string { zip3->buf->base, size_t(zip3->result) }), "Incorrect content read");
 
-                uv_zip_cleanup(zip3);
-                delete zip3;
-                FINISH_TEST(read_file)
+                uv_zip_fclose(loop, zip3, zip3->file, [](uv_zip_t *zip4) {
+                    ASSERT(zip4, "Zip object is NULL");
+                    ASSERT(zip4->result == 0, "Closing the zip file content failed");
+
+                    uv_zip_discard(loop, zip4, [](uv_zip_t *zip5) {
+                        ASSERT(zip5, "Zip object is NULL");
+                        ASSERT(zip5->result == 0, "Closing the zip file failed");
+                        uv_zip_cleanup(zip5);
+                        delete zip5;
+                        FINISH_TEST(read_file)
+                    });
+                });
             });
         });
     });

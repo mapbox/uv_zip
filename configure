@@ -7,6 +7,8 @@ LIBZIP_VERSION=${LIBZIP_VERSION:-0.11.2}
 
 export MASON_DIR=".mason"
 
+git submodule update --init
+
 function quote_flags {
     python -c "import sys, re; print filter(None, re.split('(?<!-framework)\s+', ' '.join(sys.argv[1:])))" "$@"
 }
