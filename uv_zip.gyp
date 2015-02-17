@@ -92,6 +92,7 @@
         'test/open_from_fd.cpp',
         'test/read_file.cpp',
         'test/stat_file.cpp',
+        'test/reuse_handle.cpp',
         'test/test.cpp',
       ],
       'dependencies': [ 'uv_zip' ],

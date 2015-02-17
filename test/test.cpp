@@ -8,6 +8,7 @@ void missing_file();
 void missing_file_stat();
 void read_file();
 void stat_file();
+void reuse_handle();
 
 int main() {
     open_failure();
@@ -16,5 +17,6 @@ int main() {
     missing_file_stat();
     read_file();
     stat_file();
+    reuse_handle();
     return 0;
 }
