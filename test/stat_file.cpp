@@ -18,7 +18,7 @@ void stat_file() {
             ASSERT(zip2->stat->valid & ZIP_STAT_SIZE, "No file size");
             ASSERT(zip2->stat->size == 13, "Incorrect file size");
             ASSERT(zip2->stat->valid & ZIP_STAT_MTIME, "No modification time");
-            ASSERT(zip2->stat->mtime == 1422491862L, "Incorrect modification time")
+            ASSERT(zip2->stat->mtime > 1420000000L, "Incorrect modification time")
 
             uv_zip_discard(loop, zip2, [](uv_zip_t *zip3) {
                 ASSERT(zip3, "Zip object is NULL");
